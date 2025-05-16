@@ -74,11 +74,7 @@ resource "azurerm_network_interface" "nic_public" {
     subnet_id                     = azurerm_subnet.subnet.id
     private_ip_address_allocation = "Dynamic"
     public_ip_address_id          = azurerm_public_ip.public.id
-  
-
-  }
-  network_security_group_id = azurerm_network_security_group.nsg.id
-  
+   }
 }
 
 resource "azurerm_network_interface" "nic_private" {
@@ -91,7 +87,14 @@ resource "azurerm_network_interface" "nic_private" {
     subnet_id                     = azurerm_subnet.subnet.id
     private_ip_address_allocation = "Dynamic"
   }
+}
+resource "azurerm_network_interface_security_group_association" "nic_public_nsg_assoc" {
+  network_interface_id      = azurerm_network_interface.nic_public.id
+  network_security_group_id = azurerm_network_security_group.nsg.id
+}
 
+resource "azurerm_network_interface_security_group_association" "nic_private_nsg_assoc" {
+  network_interface_id      = azurerm_network_interface.nic_private.id
   network_security_group_id = azurerm_network_security_group.nsg.id
 }
 
