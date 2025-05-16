@@ -128,7 +128,7 @@ resource "azurerm_linux_virtual_machine" "vm_public" {
 
   admin_ssh_key {
     username   = "azureuser"
-    public_key = file("~/.ssh/my_new_rsa_key.pub")
+    public_key = var.vm_ssh_public_key
   }
 
  /* provisioner "remote-exec" {
@@ -170,6 +170,6 @@ resource "azurerm_linux_virtual_machine" "vm_private" {
 
  admin_ssh_key {
     username   = "azureuser"
-    public_key = file("~/.ssh/my_new_rsa_key.pub")
+    public_key = var.vm_ssh_public_key
   } 
 }
