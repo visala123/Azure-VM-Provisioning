@@ -11,7 +11,7 @@ provider "azurerm" {
 }
 
 resource "azurerm_resource_group" "rg" {
-  name     = "demo-rg"
+  name     = "demo-resourses-rg"
   location = "East US"
 }
 
@@ -71,7 +71,8 @@ resource "azurerm_network_interface" "nic_public" {
   ip_configuration {
     name                          = "ipconfig"
     subnet_id                     = azurerm_subnet.subnet.id
-    private_ip_address_allocation = "Dynamic"
+    private_ip_address_allocation = "Static"
+    private_ip_address            = "10.0.1.4"
     public_ip_address_id          = azurerm_public_ip.public.id
    }
 }
@@ -84,7 +85,8 @@ resource "azurerm_network_interface" "nic_private" {
   ip_configuration {
     name                          = "ipconfig"
     subnet_id                     = azurerm_subnet.subnet.id
-    private_ip_address_allocation = "Dynamic"
+    private_ip_address_allocation = "Static"
+    private_ip_address            = "10.0.1.5"
   }
 }
 resource "azurerm_network_interface_security_group_association" "nic_public_nsg_assoc" {
@@ -101,8 +103,8 @@ resource "azurerm_public_ip" "public" {
   name                = "public-ip"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
-  allocation_method   = "Dynamic"
-  #sku                 = "Standard"
+  allocation_method   = "Static"
+  sku                 = "Basic"
 }
 
 resource "azurerm_linux_virtual_machine" "vm_public" {
